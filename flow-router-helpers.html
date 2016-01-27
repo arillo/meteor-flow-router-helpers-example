@@ -1,0 +1,96 @@
+<head>
+  <title>flow-router-helpers</title>
+</head>
+
+<body></body>
+
+<template name="HomeLayout">
+  {{> Template.dynamic template=main}}
+</template>
+
+<template name="QueryParams">
+  {{> BackHome}}
+  <h1>Query params passed along</h1>
+  <a href="{{pathFor 'posts' query=getQueryParams}}">pathFor 'posts' query=getQueryParams (getQueryParams defined as template helper of QueryParams template)</a>
+</template>
+
+<template name="Index">
+  <h1>flow-router-helpers-example</h1>
+  <a class="button" href="https://atmospherejs.com/arillo/flow-router-helpers/">Package on atmosphere</a>
+  <a class="button button-outline" href="https://github.com/arillo/meteor-flow-router-helpers/">Package on giithub</a>
+
+  <h2>Route examples</h2>
+  <ul>
+    <li><a href="{{pathFor '/posts/'}}">pathFor '/posts/'</a></li>
+    <li><a href="{{pathFor 'posts'}}">pathFor 'posts' (named route)</a></li>
+    <li><a href="{{pathFor '/posts/' query='back=yes&more=true'}}">pathFor '/posts/' query='back=yes&more=true'</a></li>
+    <li class="{{isActivePath regex='invites$'}}"><a href="{{pathFor 'dashboardInvites'}}">Invites</a></li>
+    <li><a href="{{pathFor 'adminPosts'}}">{{pathFor 'adminPosts'}}</a></li>
+  </ul>
+
+  <h2>Link to</h2>
+  {{#linkTo '/posts/'}}
+    Go to posts
+  {{/linkTo}}
+
+  <h2>Pass on query params</h2>
+  <a href="{{pathFor 'queryParams' query='back=yes&more=true'}}">pathFor 'queryParams' query='back=yes&more=true'</a>
+  
+</template>
+
+<template name="Posts">
+  {{> BackHome}}
+
+  {{# if subsReady}}
+    <h2>All subs ready</h2>
+  {{/if}}
+
+  {{# if subsReady 'posts'}}
+    <h2>Posts</h2>
+    <ul>
+      {{#each posts}}
+        <li><a href="{{pathFor '/post/:id' id=_id}}">{{title}}</a></li>
+      {{/each}}
+    </ul>
+  {{/if}}
+
+</template>
+
+<template name="Post">
+  {{> BackHome}}
+  {{#unless subsReady}}
+    loading...
+  {{/unless}}
+  <h1>{{post.title}}</h1>
+  <p>{{post.description}}</p>
+  <h2>Comments</h2>
+  <ul>
+    {{#each comments}}
+      <li><a href="{{pathFor '/post/:id/comment/:cid' id=post._id cid=_id}}">{{title}}</a></li>
+    {{/each}}
+  </ul>
+</template>
+
+<template name="PostComment">
+  {{> BackHome}}
+  {{#unless subsReady}}
+    loading...
+  {{/unless}}
+  <h1>{{comment.title}}</h1>
+  <p>{{comment.description}}</p>
+  <a href="{{pathFor 'post' id=(param 'id')}}">back to post</a>
+</template>
+
+<template name="AdminGroupPosts">
+  <h1>Admin group</h1>
+  {{> BackHome}}
+</template>
+
+<template name="DashboardInvites">
+  <h1>Dashboard Invites</h1>
+  {{> BackHome}}
+</template>
+
+<template name="BackHome">
+  <a href="{{pathFor '/'}}">Back home</a>
+</template>
