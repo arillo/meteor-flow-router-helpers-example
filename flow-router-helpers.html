@@ -22,6 +22,7 @@
   <h2>Route examples</h2>
   <ul>
     <li><a href="{{pathFor '/posts/'}}">pathFor '/posts/'</a></li>
+    <li><a href="{{pathFor '/posts/' hash='testhash'}}">pathFor '/posts/' hash='testhash'</a></li>
     <li><a href="{{pathFor 'posts'}}">pathFor 'posts' (named route)</a></li>
     <li><a href="{{pathFor '/posts/' query='back=yes&more=true'}}">pathFor '/posts/' query='back=yes&more=true'</a></li>
     <li class="{{isActivePath regex='invites$'}}"><a href="{{pathFor 'dashboardInvites'}}">Invites</a></li>
